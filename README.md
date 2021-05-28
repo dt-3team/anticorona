@@ -1,6 +1,21 @@
 # 3rd Team Project
 ## 코로나 백신 접종 알리미
 
+### Repositories
+
+- **게이트웨이** - [https://github.com/dt-3team/gateway.git](https://github.com/dt-3team/gateway.git)
+
+- **백신 관리** - [https://github.com/dt-3team/vaccine.git](https://github.com/dt-3team/vaccine.git)
+
+- **예약 관리** - [https://github.com/dt-3team/booking.git](https://github.com/dt-3team/booking.git)
+
+- **접종 관리** - [https://github.com/dt-3team/injection.git](https://github.com/dt-3team/injection.git)
+
+- **My Page** - [https://github.com/dt-3team/mypage.git](https://github.com/dt-3team/mypage.git)
+
+- **Front End** - [https://github.com/dt-3team/frontend.git](https://github.com/dt-3team/frontend.git)
+
+*전체 소스 받기*
 ```
 git clone --recurse-submodules https://github.com/dt-3team/anticorona.git
 ```
