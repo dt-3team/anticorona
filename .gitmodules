@@ -1,0 +1,18 @@
+[submodule "booking"]
+	path = booking
+	url = https://github.com/dt-3team/booking.git
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/dt-3team/frontend.git
+[submodule "gateway"]
+	path = gateway
+	url = https://github.com/dt-3team/gateway.git
+[submodule "injection"]
+	path = injection
+	url = https://github.com/dt-3team/injection.git
+[submodule "mypage"]
+	path = mypage
+	url = https://github.com/dt-3team/mypage.git
+[submodule "vaccine"]
+	path = vaccine
+	url = https://github.com/dt-3team/vaccine.git
