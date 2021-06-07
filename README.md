@@ -462,6 +462,7 @@ mypage 의 pom.xml DB 설정 코드(Hsql DB)
 
 
 Booking 서비스 내 external.VaccineService
+
 ```
 package anticorona.external;
 
@@ -480,6 +481,58 @@ public interface VaccineService {
     public boolean checkAndBookStock(@RequestParam Long vaccineId);
 
 }
+```
+Booking 서비스 내 Req/Resp
+```
+    @PostPersist
+    public void onPostPersist() throws Exception {
+        if(BookingApplication.applicationContext.getBean(anticorona.external.VaccineService.class)
+            .checkAndBookStock(this.vaccineId)){
+                Booked booked = new Booked();
+                BeanUtils.copyProperties(this, booked);
+                booked.publishAfterCommit();
+            }
+        else{
+            throw new Exception("Out of Stock Exception Raised.");
+        }
+
+    }
+```
+
+Vaccine 서비스 내 Booking 서비스 Feign Client 요청 대상
+```
+ @RestController
+ public class VaccineController {
+
+     @Autowired
+     VaccineRepository vaccineRepository;
+
+     @RequestMapping(value = "/vaccines/checkAndBookStock",
+        method = RequestMethod.GET,
+        produces = "application/json;charset=UTF-8")
+    public boolean checkAndBookStock(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("##### /vaccine/checkAndBookStock  called #####");
+
+        boolean status = false;
+
+        Long vaccineId = Long.valueOf(request.getParameter("vaccineId"));
+        
+        Optional<Vaccine> vaccine = vaccineRepository.findById(vaccineId);
+        if(vaccine.isPresent()){
+            Vaccine vaccineValue = vaccine.get();
+            //예약 가능한지 체크 
+            if(vaccineValue.getStock() - vaccineValue.getBookQty() > 0) {
+                //예약 가능하면 예약수량 증가
+                status = true;
+                vaccineValue.setBookQty(vaccineValue.getBookQty() + 1);
+                vaccineRepository.save(vaccineValue);
+            }
+        }
+
+        return status;
+     }
+ }
+
 ```
 
 동작 확인
