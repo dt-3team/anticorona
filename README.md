@@ -25,17 +25,17 @@ git clone --recurse-submodules https://github.com/dt-3team/anticorona.git
 - [서비스 시나리오](#서비스-시나리오)
   - [기능적 요구사항](##기능적-요구사항)
   - [비기능적 요구사항](##비기능적-요구사항)
-  - [시나리오 테스트결과](#시나리오-테스트결과)
 - [분석/설계](#분석설계)
   - [AS-IS 조직 (Horizontally-Aligned)](##AS-IS-조직-(Horizontally-Aligned))
   - [TO-BE 조직 (Vertically-Aligned)](##TO-BE-조직-(Vertically-Aligned))
   - [Event 도출](##Event-도출)
   - [부적격 이벤트 제거](##부적격-이벤트-제거)
   - [액터, 커맨드 부착](##액터,-커맨드-부착)
+  - [어그리게잇으로 묶기](##어그리게잇으로-묶기)
   - [바운디드 컨텍스트로 묶기](##바운디드-컨텍스트로-묶기)
   - [폴리시 부착/이동 및 컨텍스트 매핑](##폴리시-부착/이동-및-컨텍스트-매핑)
   - [Event Storming 최종 결과](##Event-Storming-최종-결과)
-  - [기능 요구사항 Coverage 검증](##기능-요구사항-Coverage-검증)
+  - [기능 요구사항 Coverage](##기능-요구사항-Coverage)
   - [헥사고날 아키텍처 다이어그램 도출](##헥사고날-아키텍처-다이어그램-도출)
   - [System Architecture](##System-Architecture)
 - [구현](#구현)
@@ -44,8 +44,6 @@ git clone --recurse-submodules https://github.com/dt-3team/anticorona.git
   - [폴리글랏 퍼시스턴스](##폴리글랏-퍼시스턴스)
   - [동기식 호출과 Fallback 처리](##동기식-호출과-Fallback-처리)
   - [비동기식 호출과 Eventual Consistency](##비동기식-호출과-Eventual-Consistency)
-
-
 - [운영](#운영)
   - [Deploy/ Pipeline](#Deploy/Pipeline)
   - [Config Map](##Config-Map)
@@ -93,6 +91,7 @@ git clone --recurse-submodules https://github.com/dt-3team/anticorona.git
 
 ## Event 도출
 ![image](https://user-images.githubusercontent.com/61259324/120970337-43beac00-c7a6-11eb-87ec-1bccc37c0fb5.png)
+
 ## 부적격 이벤트 제거
 ![image](https://user-images.githubusercontent.com/61259324/120970404-5afd9980-c7a6-11eb-93a4-ec60cf3c4ea0.png)
 
