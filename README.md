@@ -72,9 +72,6 @@ git clone --recurse-submodules https://github.com/dt-3team/anticorona.git
 ## 비기능적 요구사항
 * 트랜잭션
     * 예약 수량은 재고 수량을 초과하여 예약 할 수 없다. (Sync 호출)
-        |값|계산식|
-        |---:|------|
-        |예약 가능|백신 재고 수 - 예약 백신 수 >= 1|
 * 장애격리
     * 백신접종 기능이 수행되지 않더라도 백신예약은 365일 24시간 받을 수 있어야 한다. Async (event-driven), Eventual Consistency
     * 예약시스템이 과중 되면 사용자를 잠시동안 받지 않고 예약을 잠시후에 하도록 유도한다. Circuit breaker, fallback
