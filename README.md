@@ -447,6 +447,13 @@ mypage 의 pom.xml DB 설정 코드(Hsql DB)
  
 ![image](https://user-images.githubusercontent.com/82795860/120964600-83819580-c79e-11eb-8e4d-8be99afa2073.png)
 
+|서비스|DB|pom.xml|
+| :--: | :--: | :--: |
+|vaccine| H2 |![image](https://user-images.githubusercontent.com/2360083/120982836-1842be00-c7b4-11eb-91de-ab01170133fd.png)|
+|booking| H2 |![image](https://user-images.githubusercontent.com/2360083/120982836-1842be00-c7b4-11eb-91de-ab01170133fd.png)|
+|injection| H2 |![image](https://user-images.githubusercontent.com/2360083/120982836-1842be00-c7b4-11eb-91de-ab01170133fd.png)|
+|mypage| HSQL |![image](https://user-images.githubusercontent.com/2360083/120982836-1842be00-c7b4-11eb-91de-ab01170133fd.png)|
+
 ## 동기식 호출과 Fallback 처리
 분석단계에서의 조건 중 하나로  접종 예약 수량은 백신 재고수량을 초과 할 수 없으며
 예약(Booking)->(Vaccine) 간의 호출은 동기식 일관성을 유지하는 트랜잭션으로 처리하기로 하였다. 
@@ -697,16 +704,8 @@ spec:
 
     ![configmap-오류2](https://user-images.githubusercontent.com/18115456/120985213-5ccf5900-c7b6-11eb-9c06-5402942329a3.png)  
 
-  ## Persistence Volume
-  h2 db를 사용한 다른 서비스와 달리 mypage 서비스는 hsql db로 구현하였다.
-
-|서비스|DB|pom.xml|
-| :--: | :--: | :--: |
-|vaccine| H2 |![image](https://user-images.githubusercontent.com/2360083/120982836-1842be00-c7b4-11eb-91de-ab01170133fd.png)|
-|booking| H2 |![image](https://user-images.githubusercontent.com/2360083/120982836-1842be00-c7b4-11eb-91de-ab01170133fd.png)|
-|injection| H2 |![image](https://user-images.githubusercontent.com/2360083/120982836-1842be00-c7b4-11eb-91de-ab01170133fd.png)|
-|mypage| H2 |![image](https://user-images.githubusercontent.com/2360083/120982836-1842be00-c7b4-11eb-91de-ab01170133fd.png)|
-
+## Persistence Volume
+  
 PVC 생성 파일
 
 <code>injection-pvc.yml</code>
@@ -730,12 +729,12 @@ PVC 생성 파일
 마운트 경로에 logging file 생성 확인
 
 ```
-$ kubectl exec -it injection -- /bin/sh
+$ kubectl exec -it injection -n anticorona -- /bin/sh
 # cd /mnt/azure/logs
 # tail -n 20 -f injection.log
 ```
 
-<img src="https://user-images.githubusercontent.com/2360083/120983881-14fc0200-c7b5-11eb-807d-3aff8271741e.png" width="100%" />
+<img src="https://user-images.githubusercontent.com/2360083/121015318-d296ed00-c7d5-11eb-90ad-679f6513905d.png" width="100%" />
 
   ## Autoscale (HPA)
   앞서 CB 는 시스템을 안정되게 운영할 수 있게 해줬지만 사용자의 요청을 100% 받아들여주지 못했기 때문에 이에 대한 보완책으로 자동화된 확장 기능을 적용하고자 한다. 
