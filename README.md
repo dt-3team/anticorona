@@ -82,3 +82,9 @@ git clone --recurse-submodules https://github.com/dt-3team/anticorona.git
 
 ## 헥사고날 아키텍처 다이어그램 도출
 ![image](https://user-images.githubusercontent.com/61259324/120964341-27b70c80-c79e-11eb-8573-015794496e99.png)
+
+
+![image](https://user-images.githubusercontent.com/61259324/120966586-626e7400-c7a1-11eb-9d91-0960a88e675d.png)
+
+
+![image](https://user-images.githubusercontent.com/61259324/120966961-e4f73380-c7a1-11eb-8064-32f5363703c3.png)
