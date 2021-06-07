@@ -7,6 +7,177 @@
 
 ## Deploy / Pipeline
 
+- git에서 소스 가져오기
+```
+git clone --recurse-submodules https://github.com/dt-3team/anticorona.git
+```
+- Build 하기
+```
+cd /anticorona
+cd gateway
+mvn package
+
+cd ..
+cd booking
+mvn package
+
+cd ..
+cd vaccine
+mvn package
+
+cd ..
+cd injection
+mvn package
+
+cd ..
+cd mypage
+mvn package
+```
+
+- Docker Image Push/deploy/서비스생성(yml이용)
+```
+-- 기본 namespace 설정
+kubectl config set-context --current --namespace=anticorona
+
+-- namespace 생성
+kubectl create ns anticorona
+
+cd gateway
+az acr build --registry skccanticorona --image skccanticorona.azurecr.io/gateway:latest .
+
+cd kubernetes
+kubectl apply -f deployment.yml
+kubectl apply -f service.yaml
+
+cd ..
+cd booking
+az acr build --registry skccanticorona --image skccanticorona.azurecr.io/booking:latest .
+
+cd kubernetes
+kubectl apply -f deployment.yml
+kubectl apply -f service.yaml
+
+cd ..
+cd vaccine
+az acr build --registry skccanticorona --image skccanticorona.azurecr.io/vaccine:latest .
+
+cd kubernetes
+kubectl apply -f deployment.yml
+kubectl apply -f service.yaml
+
+cd ..
+cd injection
+az acr build --registry skccanticorona --image skccanticorona.azurecr.io/injection:latest .
+
+cd kubernetes
+kubectl apply -f deployment.yml
+kubectl apply -f service.yaml
+
+cd ..
+cd mypage
+az acr build --registry skccanticorona --image skccanticorona.azurecr.io/mypage:latest .
+
+cd kubernetes
+kubectl apply -f deployment.yml
+kubectl apply -f service.yaml
+
+```
+- anticorona/gateway/kubernetes/deployment.yml 파일 
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+  namespace: anticorona
+  labels:
+    app: gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+        - name: gateway
+          image: skccanticorona.azurecr.io/gateway:latest
+          ports:
+            - containerPort: 8080
+```	  
+
+- anticorona/gateway/kubernetes/service.yaml 파일 
+```yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway
+  namespace: anticorona
+  labels:
+    app: gateway
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: LoadBalancer
+  selector:
+    app: gateway
+```	  
+
+- anticorona/booking/kubernetes/deployment.yml 파일 
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booking
+  namespace: anticorona
+  labels:
+    app: booking
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: booking
+  template:
+    metadata:
+      labels:
+        app: booking
+    spec:
+      containers:
+        - name: booking
+          image: skccanticorona.azurecr.io/booking:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: vaccine-url
+              valueFrom:
+                configMapKeyRef:
+                  name: apiurl
+                  key: url
+```	  
+
+- anticorona/booking/kubernetes/service.yaml 파일 
+```yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: booking
+  namespace: anticorona
+  labels:
+    app: booking
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: booking
+```	  
+
+- deploy 완료(istio 부착기준)
+
+![image](https://user-images.githubusercontent.com/82795806/120998532-24824780-c7c3-11eb-8f01-d73860d68426.png)
 ***
 
 ## 동기식 호출 / 서킷 브레이킹 / 장애격리
@@ -39,8 +210,22 @@ kubectl label anticorona tutorial istio-injection=enabled
 ```
 
 - Virsual Service 생성 (Timeout 3초 설정)
-
-![image](https://user-images.githubusercontent.com/82795806/120993237-4deca480-c7be-11eb-97fe-d887334d2a38.png)
+- anticorona/booking/kubernetes/booking-istio.yaml 파일 
+```yml
+  apiVersion: networking.istio.io/v1alpha3
+  kind: VirtualService
+  metadata:
+    name: vs-booking-network-rule
+    namespace: anticorona
+  spec:
+    hosts:
+    - booking
+    http:
+    - route:
+      - destination:
+          host: booking
+      timeout: 3s
+```	  
 
 ![image](https://user-images.githubusercontent.com/82795806/120985451-956f3280-c7b6-11eb-95a4-eb5a8c1ebce4.png)
 
@@ -50,9 +235,8 @@ kubectl label anticorona tutorial istio-injection=enabled
 ![image](https://user-images.githubusercontent.com/82795806/120985804-ed0d9e00-c7b6-11eb-9f13-8a961c73adc0.png)
 
 
-* 부하테스터 siege 툴을 통한 서킷 브레이커 동작 확인:
-- 동시사용자 100명
-- 60초 동안 실시
+- 부하테스터 siege 툴을 통한 서킷 브레이커 동작 확인:
+  - 동시사용자 100명, 60초 동안 실시
 ```
 # siege -c100 -t10S -v --content-type "application/json" 'http://booking:8080/bookings POST {"vaccineId":1, "vcName":"FIZER", "userId":5, "status":"BOOCKED"}'
 ```
@@ -88,9 +272,11 @@ watch kubectl get all
 - 어느정도 시간이 흐른 후 스케일 아웃이 벌어지는 것을 확인할 수 있다:
 
 * siege 부하테스트 - 전
+
 ![image](https://user-images.githubusercontent.com/82795806/120990254-51caf780-c7bb-11eb-98a6-243b69344f12.png)
 
 * siege 부하테스트 - 후
+
 ![image](https://user-images.githubusercontent.com/82795806/120989337-66f35680-c7ba-11eb-9b4e-b1425d4a3c2f.png)
 
 
