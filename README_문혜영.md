@@ -17,7 +17,7 @@
 ### Circuit Breaker
 * 서킷 브레이킹 프레임워크의 선택: Spring FeignClient + Istio를 설치하여, anticorona namespace에 주입하여 구현함
 
-시나리오는 예약(booking)-->백신(vaccine) 연결을 RESTful Request/Response 로 연동하여 구현이 되어있고, 결제 요청이 과도할 경우 CB 를 통하여 장애격리.
+시나리오는 예약(booking)-->백신(vaccine) 연결을 RESTful Request/Response 로 연동하여 구현이 되어있고, 예약 요청이 과도할 경우 CB 를 통하여 장애격리.
 
 - Istio 다운로드 및 PATH 추가, 설치, namespace에 istio주입
 ```
@@ -41,7 +41,9 @@ istioctl install --set profile=demo --set hub=gcr.io/istio-release
 kubectl label anticorona tutorial istio-injection=enabled
 ```
 
-- Virsual Service 생성
+- Virsual Service 생성 (Timeout 3초 설정)
+
+![image](https://user-images.githubusercontent.com/82795806/120993237-4deca480-c7be-11eb-97fe-d887334d2a38.png)
 
 ![image](https://user-images.githubusercontent.com/82795806/120985451-956f3280-c7b6-11eb-95a4-eb5a8c1ebce4.png)
 
