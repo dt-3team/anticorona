@@ -73,7 +73,24 @@ git clone --recurse-submodules https://github.com/dt-3team/anticorona.git
 ## TO-BE 조직 (Vertically-Aligned)
 ![Vertically-Aligned](https://user-images.githubusercontent.com/2360083/119254421-2eb41b80-bbf1-11eb-82fe-53c5dcd366f7.png)
 
-## Event Storming 결과
+## Event 도출
+![image](https://user-images.githubusercontent.com/61259324/120970337-43beac00-c7a6-11eb-87ec-1bccc37c0fb5.png)
+## 부적격 이벤트 제거
+![image](https://user-images.githubusercontent.com/61259324/120970404-5afd9980-c7a6-11eb-93a4-ec60cf3c4ea0.png)
+
+## 액터, 커맨드 부착
+![image](https://user-images.githubusercontent.com/61259324/120970948-0d356100-c7a7-11eb-956f-faeb5f0d53a6.png)
+
+## 어그리게잇으로 묶기
+![image](https://user-images.githubusercontent.com/61259324/120971066-30f8a700-c7a7-11eb-9dfc-d282b5c23e65.png)
+
+## 바운디드 컨텍스트로 묶기
+![image](https://user-images.githubusercontent.com/61259324/120972839-23dcb780-c7a9-11eb-92fc-4566835b88e2.png)
+
+## 폴리시 부착/이동 및 컨텍스트 매핑
+![image](https://user-images.githubusercontent.com/61259324/120973052-669e8f80-c7a9-11eb-9c5e-e5eed14c32e6.png)
+
+## Event Storming 최종 결과
 ![image](https://user-images.githubusercontent.com/61259324/120962973-c130ef00-c79b-11eb-852f-0afc93b6e759.png)
 
 
@@ -83,7 +100,7 @@ git clone --recurse-submodules https://github.com/dt-3team/anticorona.git
 ## 헥사고날 아키텍처 다이어그램 도출
 ![image](https://user-images.githubusercontent.com/61259324/120964341-27b70c80-c79e-11eb-8573-015794496e99.png)
 
-
+## System Architecture
 ![image](https://user-images.githubusercontent.com/61259324/120966586-626e7400-c7a1-11eb-9d91-0960a88e675d.png)
 
 
