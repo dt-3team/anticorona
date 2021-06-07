@@ -160,7 +160,7 @@ git clone --recurse-submodules https://github.com/dt-3team/anticorona.git
 # 구현
 분석/설계 단계에서 도출된 헥사고날 아키텍처에 따라,구현한 각 서비스를 로컬에서 실행하는 방법은 아래와 같다
 (각자의 포트넘버는 8081 ~ 8084, 8088 이다)
-```
+```shell
 cd vaccine
 mvn spring-boot:run
 
@@ -180,8 +180,9 @@ mvn spring-boot:run
 msaez.io 를 통해 구현한 Aggregate 단위로 Entity 를 선언 후, 구현을 진행하였다.
 Entity Pattern 과 Repository Pattern을 적용하기 위해 Spring Data REST 의 RestRepository 를 적용하였다.
 
-```
-Booking 서비스의 Book.java
+Booking 서비스의 Booking.java
+
+```java
 
 package anticorona;
 
@@ -274,7 +275,8 @@ public class Booking extends ResourceSupport {
 ```
 
  Booking 서비스의 PolicyHandler.java
-```
+
+```java
 package anticorona;
 
 import anticorona.config.kafka.KafkaProcessor;
@@ -319,7 +321,7 @@ public class PolicyHandler{
  Booking 서비스의 BookingRepository.java
 
 
-``` 
+```java
 package anticorona;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -337,7 +339,7 @@ DDD 적용 후 REST API의 테스트를 통하여 정상적으로 동작하는 �
 API GateWay를 통하여 마이크로 서비스들의 집입점을 통일할 수 있다. 
 다음과 같이 GateWay를 적용하였다.
 
-```
+```yaml
 server:
   port: 8088
 ---
@@ -439,14 +441,6 @@ Materialized View 를 구현하여, 타 마이크로서비스의 데이터 원�
 mypage 서비스의 DB와 Bookingn/injection/vaccine 서비스의 DB를 다른 DB를 사용하여 MSA간 서로 다른 종류의 DB간에도 문제 없이 동작하여 다형성을 만족하는지 확인하였다.
 (폴리글랏을 만족)
 
-Bookingn/injection/vaccine 의 pom.xml DB 설정 코드 (H2 DB)
- 
-![image](https://user-images.githubusercontent.com/82795860/120964508-664cc700-c79e-11eb-9de6-8669f1238904.png)
-
-mypage 의 pom.xml DB 설정 코드(Hsql DB)
- 
-![image](https://user-images.githubusercontent.com/82795860/120964600-83819580-c79e-11eb-8e4d-8be99afa2073.png)
-
 |서비스|DB|pom.xml|
 | :--: | :--: | :--: |
 |vaccine| H2 |![image](https://user-images.githubusercontent.com/2360083/120982836-1842be00-c7b4-11eb-91de-ab01170133fd.png)|
@@ -463,7 +457,7 @@ mypage 의 pom.xml DB 설정 코드(Hsql DB)
 
 Booking 서비스 내 external.VaccineService
 
-```
+```java
 package anticorona.external;
 
 import org.springframework.cloud.openfeign.FeignClient;
@@ -482,8 +476,10 @@ public interface VaccineService {
 
 }
 ```
+
 Booking 서비스 내 Req/Resp
-```
+
+```java
     @PostPersist
     public void onPostPersist() throws Exception {
         if(BookingApplication.applicationContext.getBean(anticorona.external.VaccineService.class)
@@ -500,7 +496,8 @@ Booking 서비스 내 Req/Resp
 ```
 
 Vaccine 서비스 내 Booking 서비스 Feign Client 요청 대상
-```
+
+```java
  @RestController
  public class VaccineController {
 
@@ -565,7 +562,7 @@ git clone --recurse-submodules https://github.com/dt-3team/anticorona.git
 
 - Build 하기
 
-```
+```bash
 cd /anticorona
 cd gateway
 mvn package
@@ -589,7 +586,7 @@ mvn package
 
 - Docker Image Push/deploy/서비스생성(yml이용)
 
-```
+```sh
 -- 기본 namespace 설정
 kubectl config set-context --current --namespace=anticorona
 
@@ -754,16 +751,20 @@ spec:
 - booking deploy yml (booking/kubernetes/deployment.yml)  
     ![configmap-deploy yml](https://user-images.githubusercontent.com/18115456/120984461-a2d7ed00-c7b5-11eb-9f2f-6b09ad0ba9cf.png)
 
-- configmap 생성 후 조회  
-    ```
+- configmap 생성 후 조회
+
+    ```sh
     kubectl create configmap apiurl --from-literal=url=vaccine -n anticorona
     ```
+
     ![configmap-configmap조회](https://user-images.githubusercontent.com/18115456/120985042-2eea1480-c7b6-11eb-9dbc-e73d696c003b.PNG)
 
 - configmap 삭제 후, 에러 확인  
-    ```
+
+    ```sh
     kubectl delete configmap apiurl
     ```
+
     ![configmap-오류1](https://user-images.githubusercontent.com/18115456/120985205-5b9e2c00-c7b6-11eb-8ede-df74eff7f344.png)
 
     ![configmap-오류2](https://user-images.githubusercontent.com/18115456/120985213-5ccf5900-c7b6-11eb-9c06-5402942329a3.png)  
@@ -792,21 +793,22 @@ PVC 생성 파일
 
 마운트 경로에 logging file 생성 확인
 
-```
+```sh
 $ kubectl exec -it injection -n anticorona -- /bin/sh
-# cd /mnt/azure/logs
-# tail -n 20 -f injection.log
+$ cd /mnt/azure/logs
+$ tail -n 20 -f injection.log
 ```
 
 <img src="https://user-images.githubusercontent.com/2360083/121015318-d296ed00-c7d5-11eb-90ad-679f6513905d.png" width="100%" />
 
-  ## Autoscale (HPA)
+## Autoscale (HPA)
+
   앞서 CB 는 시스템을 안정되게 운영할 수 있게 해줬지만 사용자의 요청을 100% 받아들여주지 못했기 때문에 이에 대한 보완책으로 자동화된 확장 기능을 적용하고자 한다. 
 
 - 결제서비스에 대한 replica 를 동적으로 늘려주도록 HPA 를 설정한다. 설정은 CPU 사용량이 15프로를 넘어서면 replica 를 10개까지 늘려준다:
 
-```
-kubectl autoscale deploy booking --min=1 --max=10 --cpu-percent=15
+```sh
+$ kubectl autoscale deploy booking --min=1 --max=10 --cpu-percent=15
 ```
 
 ![image](https://user-images.githubusercontent.com/82795806/120987663-c51f3a00-c7b8-11eb-8cc3-59d725ca2f69.png)
@@ -814,14 +816,14 @@ kubectl autoscale deploy booking --min=1 --max=10 --cpu-percent=15
 
 - CB 에서 했던 방식대로 워크로드를 걸어준다.
 
-```
-# siege -c200 -t10S -v --content-type "application/json" 'http://booking:8080/bookings POST {"vaccineId":1, "vcName":"FIZER", "userId":5, "status":"BOOCKED"}'
+```sh
+$ siege -c200 -t10S -v --content-type "application/json" 'http://booking:8080/bookings POST {"vaccineId":1, "vcName":"FIZER", "userId":5, "status":"BOOCKED"}'
 ```
 
 - 오토스케일이 어떻게 되고 있는지 모니터링을 걸어둔다:
 
-```
-watch kubectl get all
+```sh
+$ watch kubectl get all
 ```
 
 - 어느정도 시간이 흐른 후 스케일 아웃이 벌어지는 것을 확인할 수 있다:
@@ -839,36 +841,37 @@ watch kubectl get all
 
 ![image](https://user-images.githubusercontent.com/82795806/120990490-93f43900-c7bb-11eb-9295-c3a0a8165ff6.png)
 
-  ## Circuit Breaker
+## Circuit Breaker
+
   * 서킷 브레이킹 프레임워크의 선택: Spring FeignClient + Istio를 설치하여, anticorona namespace에 주입하여 구현함
 
 시나리오는 예약(booking)-->백신(vaccine) 연결을 RESTful Request/Response 로 연동하여 구현이 되어있고, 예약 요청이 과도할 경우 CB 를 통하여 장애격리.
 
 - Istio 다운로드 및 PATH 추가, 설치, namespace에 istio주입
 
-```
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.7.1 TARGET_ARCH=x86_64 sh -
+```sh
+$ curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.7.1 TARGET_ARCH=x86_64 sh -
 ※ istio v1.7.1은 Kubernetes 1.16이상에서만 동작
 ```
 
 - istio PATH 추가
 
-```
-cd istio-1.7.1
-export PATH=$PWD/bin:$PATH
+```sh
+$ cd istio-1.7.1
+$ export PATH=$PWD/bin:$PATH
 ```
 
 - istio 설치
 
-```
-istioctl install --set profile=demo --set hub=gcr.io/istio-release
+```sh
+$ istioctl install --set profile=demo --set hub=gcr.io/istio-release
 ※ Docker Hub Rate Limiting 우회 설정
 ```
 
 - namespace에 istio주입
 
-```
-kubectl label anticorona tutorial istio-injection=enabled
+```sh
+$ kubectl label anticorona tutorial istio-injection=enabled
 ```
 
 - Virsual Service 생성 (Timeout 3초 설정)
@@ -900,8 +903,9 @@ kubectl label anticorona tutorial istio-injection=enabled
 
 - 부하테스터 siege 툴을 통한 서킷 브레이커 동작 확인:
   - 동시사용자 100명, 60초 동안 실시
-```
-# siege -c100 -t10S -v --content-type "application/json" 'http://booking:8080/bookings POST {"vaccineId":1, "vcName":"FIZER", "userId":5, "status":"BOOCKED"}'
+
+```sh
+$ siege -c100 -t10S -v --content-type "application/json" 'http://booking:8080/bookings POST {"vaccineId":1, "vcName":"FIZER", "userId":5, "status":"BOOCKED"}'
 ```
 ![image](https://user-images.githubusercontent.com/82795806/120986972-1549cc80-c7b8-11eb-83e1-7bac5a0e80ed.png)
 
@@ -912,8 +916,18 @@ kubectl label anticorona tutorial istio-injection=enabled
 ***
 
 ## Zero-Downtime deploy (Readiness Probe)
+
 - deployment.yml에 정상 적용되어 있는 readinessProbe  
-    ![readiness](https://user-images.githubusercontent.com/18115456/120987376-7ffb0800-c7b8-11eb-8672-466a04893c50.PNG)  
+```yml
+readinessProbe:
+  httpGet:
+    path: '/actuator/health'
+    port: 8080
+  initialDelaySeconds: 10
+  timeoutSeconds: 2
+  periodSeconds: 5
+  failureThreshold: 10
+```
 
 - deployment.yml에서 readiness 설정 제거 후, 배포중 siege 테스트 진행  
     - hpa 설정에 의해 target 지수 초과하여 booking scale-out 진행됨  
@@ -929,8 +943,19 @@ kubectl label anticorona tutorial istio-injection=enabled
 
     
 ## Self-healing (Liveness Probe)
+
 - deployment.yml에 정상 적용되어 있는 livenessProbe  
-    ![liveness](https://user-images.githubusercontent.com/18115456/120985784-e97a1700-c7b6-11eb-8ead-209072912fa0.PNG)
+
+```yml
+livenessProbe:
+  httpGet:
+    path: '/actuator/health'
+    port: 8080
+  initialDelaySeconds: 120
+  timeoutSeconds: 2
+  periodSeconds: 5
+  failureThreshold: 5
+```
 
 - port 및 path 잘못된 값으로 변경 후, retry 시도 확인 (in booking 서비스)  
     - booking deploy yml 수정  
