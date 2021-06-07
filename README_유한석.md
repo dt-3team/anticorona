@@ -16,20 +16,14 @@ PVC 생성 파일
 <code>injection-pvc.yml</code>
 - AccessModes: **ReadWriteMany**
 - storeageClass: **azurefile**
-```
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: injection-disk
-  namespace: anticorona
-spec:
-  accessModes:
-  - ReadWriteMany
-  storageClassName: azurefile
-  resources:
-    requests:
-      storage: 1Gi
-```
+
+![image](https://user-images.githubusercontent.com/2360083/120986163-41188280-c7b7-11eb-8e23-755d645efbed.png)
+
+<code>deployment.yml</code>
+
+- Container에 Volumn Mount
+
+![image](https://user-images.githubusercontent.com/2360083/120983890-175e5c00-c7b5-11eb-9332-04033438cea1.png)
 
 <code>application.yml</code>
 - profile: **docker**
@@ -37,7 +31,8 @@ spec:
 
 ![image](https://user-images.githubusercontent.com/2360083/120983856-10374e00-c7b5-11eb-93d5-42e1178912a8.png)
 
+마운트 경로에 logging file 생성 확인
 
-![image](https://user-images.githubusercontent.com/2360083/120983881-14fc0200-c7b5-11eb-807d-3aff8271741e.png)
+<img src="https://user-images.githubusercontent.com/2360083/120983881-14fc0200-c7b5-11eb-807d-3aff8271741e.png" width="100%" />
 
-![image](https://user-images.githubusercontent.com/2360083/120983890-175e5c00-c7b5-11eb-9332-04033438cea1.png)
+
