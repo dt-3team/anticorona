@@ -46,7 +46,7 @@ git clone --recurse-submodules https://github.com/dt-3team/anticorona.git
 * 백신 관리자는 백신 재고를 추가한다.
 * 고객은 접종을 예약한다.
 * 고객은 접종 예약을 취소 할 수 있다.
-* 접종 예약수량은 백신 재고수량을 초과 할 수 없으며, 백신 수량이 부족한 경우 예약대기로 신청된다.
+* 접종 예약수량은 백신 재고수량을 초과 할 수 없다.
 * 고객이 접종 완료 하면, 예약 수량과 재고 수량이 감소한다.
 * 고객이 방문하여 접종하면 접종 관리자에 의해 접종완료된다.
 * 고객은 예약정보를 확인 할 수 있다. 
@@ -96,6 +96,14 @@ git clone --recurse-submodules https://github.com/dt-3team/anticorona.git
 
 ![image](https://user-images.githubusercontent.com/61259324/120963262-356b9280-c79c-11eb-94f0-2cd88bc66c5e.png)
 
+
+## 기능 요구사항 Coverage
+
+![image](https://user-images.githubusercontent.com/61259324/120993819-df5c1680-c7be-11eb-86c0-0c0cc1655310.png)
+
+![image](https://user-images.githubusercontent.com/61259324/120994060-1b8f7700-c7bf-11eb-8576-c9942300dcc2.png)
+
+![image](https://user-images.githubusercontent.com/61259324/120994206-3d88f980-c7bf-11eb-842b-73118d6e89ce.png)
 
 ## 헥사고날 아키텍처 다이어그램 도출
 ![image](https://user-images.githubusercontent.com/61259324/120964341-27b70c80-c79e-11eb-8573-015794496e99.png)
