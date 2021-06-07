@@ -33,6 +33,12 @@ PVC 생성 파일
 
 마운트 경로에 logging file 생성 확인
 
+```
+$ kubectl exec -it injection -- /bin/sh
+# cd /mnt/azure/logs
+# tail -n 20 -f injection.log
+```
+
 <img src="https://user-images.githubusercontent.com/2360083/120983881-14fc0200-c7b5-11eb-807d-3aff8271741e.png" width="100%" />
 
 
