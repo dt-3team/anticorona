@@ -800,7 +800,7 @@ $ kubectl autoscale deploy booking --min=1 --max=10 --cpu-percent=15
 - CB 에서 했던 방식대로 워크로드를 걸어준다.
 
 ```sh
-$ siege -c200 -t10S -v --content-type "application/json" 'http://booking:8080/bookings POST {"vaccineId":1, "vcName":"FIZER", "userId":5, "status":"BOOCKED"}'
+$ siege -c200 -t10S -v --content-type "application/json" 'http://booking:8080/bookings POST {"vaccineId":1, "vcName":"FIZER", "userId":5, "status":"BOOKED"}'
 ```
 
 - 오토스케일이 어떻게 되고 있는지 모니터링을 걸어둔다:
@@ -888,7 +888,7 @@ $ kubectl label anticorona tutorial istio-injection=enabled
   - 동시사용자 100명, 60초 동안 실시
 
 ```sh
-$ siege -c100 -t10S -v --content-type "application/json" 'http://booking:8080/bookings POST {"vaccineId":1, "vcName":"FIZER", "userId":5, "status":"BOOCKED"}'
+$ siege -c100 -t10S -v --content-type "application/json" 'http://booking:8080/bookings POST {"vaccineId":1, "vcName":"FIZER", "userId":5, "status":"BOOKED"}'
 ```
 ![image](https://user-images.githubusercontent.com/82795806/120986972-1549cc80-c7b8-11eb-83e1-7bac5a0e80ed.png)
 
