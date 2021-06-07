@@ -74,5 +74,11 @@ git clone --recurse-submodules https://github.com/dt-3team/anticorona.git
 ![Vertically-Aligned](https://user-images.githubusercontent.com/2360083/119254421-2eb41b80-bbf1-11eb-82fe-53c5dcd366f7.png)
 
 ## Event Storming 결과
+![image](https://user-images.githubusercontent.com/61259324/120962973-c130ef00-c79b-11eb-852f-0afc93b6e759.png)
 
 
+![image](https://user-images.githubusercontent.com/61259324/120963262-356b9280-c79c-11eb-94f0-2cd88bc66c5e.png)
+
+
+## 헥사고날 아키텍처 다이어그램 도출
+![image](https://user-images.githubusercontent.com/61259324/120964341-27b70c80-c79e-11eb-8573-015794496e99.png)
