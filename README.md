@@ -535,6 +535,7 @@ mvn package
 ```
 
 - Docker Image Push/deploy/서비스생성(yml이용)
+
 ```
 -- 기본 namespace 설정
 kubectl config set-context --current --namespace=anticorona
@@ -582,7 +583,9 @@ kubectl apply -f deployment.yml
 kubectl apply -f service.yaml
 
 ```
+
 - anticorona/gateway/kubernetes/deployment.yml 파일 
+
 ```yml
 apiVersion: apps/v1
 kind: Deployment
@@ -609,6 +612,7 @@ spec:
 ```	  
 
 - anticorona/gateway/kubernetes/service.yaml 파일 
+
 ```yml
 apiVersion: v1
 kind: Service
@@ -627,6 +631,7 @@ spec:
 ```	  
 
 - anticorona/booking/kubernetes/deployment.yml 파일 
+
 ```yml
 apiVersion: apps/v1
 kind: Deployment
@@ -659,6 +664,7 @@ spec:
 ```	  
 
 - anticorona/booking/kubernetes/service.yaml 파일 
+
 ```yml
 apiVersion: v1
 kind: Service
