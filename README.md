@@ -427,15 +427,6 @@ Materialized View 를 구현하여, 타 마이크로서비스의 데이터 원�
 
 
 ![image](https://user-images.githubusercontent.com/82795860/121006311-bb530200-c7cb-11eb-9d85-a7b22d1a2729.png)
-
-` 
-위와 같이 주문을 하게되면 Booking -> Vaccine -> Booking  로 예약이 Assigend 되고
-
-예약 취소가 되면 Status가 "BOOKING_CANCELLED"로 Update 되는 것을 볼 수 있다.
-
-또한 Correlation을 key를 활용하여 bookingId가 Key값을 하고 예약과 접종 서비스간의 공유가 이루어 졌다.
-
-위 결과로 서로 다른 마이크로 서비스 간에 트랜잭션이 묶여 있음을 알 수 있다.
   
 ## 폴리글랏 퍼시스턴스
 mypage 서비스의 DB와 Bookingn/injection/vaccine 서비스의 DB를 다른 DB를 사용하여 MSA간 서로 다른 종류의 DB간에도 문제 없이 동작하여 다형성을 만족하는지 확인하였다.
