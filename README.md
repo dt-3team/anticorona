@@ -123,7 +123,7 @@ git clone --recurse-submodules https://github.com/dt-3team/anticorona.git
 ![image](https://user-images.githubusercontent.com/61259324/120963262-356b9280-c79c-11eb-94f0-2cd88bc66c5e.png)
 
 
-## 기능 요구사항 Coverage 검증
+## 기능 요구사항 Coverage
 
 ![image](https://user-images.githubusercontent.com/61259324/120993819-df5c1680-c7be-11eb-86c0-0c0cc1655310.png)
 
