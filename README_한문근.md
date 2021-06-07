@@ -78,17 +78,43 @@ git clone --recurse-submodules https://github.com/dt-3team/anticorona.git
 ## 부적격 이벤트 제거
 ![image](https://user-images.githubusercontent.com/61259324/120970404-5afd9980-c7a6-11eb-93a4-ec60cf3c4ea0.png)
 
+```
+- 이벤트를 식별하여 타임라인으로 배치하고 중복되거나 잘못된 도메인 이벤트들을 걸러내는 작업을 수행함
+- 현업이 사용하는 용어를 그대로 사용(Ubiquitous Language) 
+```
 ## 액터, 커맨드 부착
 ![image](https://user-images.githubusercontent.com/61259324/120970948-0d356100-c7a7-11eb-956f-faeb5f0d53a6.png)
 
+```
+- Event를 발생시키는 Command와 Command를 발생시키는주체, 담당자 또는 시스템을 식별함 
+- Command : 백신등록, 백신수량 추가, 접종 예약, 접종예약 취소, 접종, 체크 및 예약수량 변경
+- Actor : 백신관리자, 접종자, 접종관리자, 시스템
+```
 ## 어그리게잇으로 묶기
 ![image](https://user-images.githubusercontent.com/61259324/120971066-30f8a700-c7a7-11eb-9dfc-d282b5c23e65.png)
 
+```
+- 연관있는 도메인 이벤트들을 Aggregate 로 묶었음 
+- Aggregate : 백신정보, 예약정보, 접종정보
+```
 ## 바운디드 컨텍스트로 묶기
 ![image](https://user-images.githubusercontent.com/61259324/120972839-23dcb780-c7a9-11eb-92fc-4566835b88e2.png)
 
+```
+도메인 서열 분리
+- Core Domain (접종예약 서비스)
+  . 없어서는 안될 핵심 서비스이며, 연간 Up-time SLA 수준을 99.999% 목표, 배포주기는 1주일 1회 미만
+- Supporting Domain (백신 서비스)
+  . 백신 재고및 예약수량 관리 위한 서비스이며, SLA 수준은 연간 80% 이상 uptime 목표, 배포주기는 각 팀의 자율이나 표준 스프린트 주기가 1주일 이므로 1주일 1회 이상을 기준으로 함
+- General Domain (접종 서비스) : 접종완료이력을 관리하기 위한 서비스
+```
+
 ## 폴리시 부착/이동 및 컨텍스트 매핑
 ![image](https://user-images.githubusercontent.com/61259324/120973052-669e8f80-c7a9-11eb-9c5e-e5eed14c32e6.png)
+
+```
+- Policy의 이동과 컨텍스트 매핑 (점선은 Pub/Sub, 실선은 Req/Res)
+```
 
 ## Event Storming 최종 결과
 ![image](https://user-images.githubusercontent.com/61259324/120962973-c130ef00-c79b-11eb-852f-0afc93b6e759.png)
@@ -97,7 +123,7 @@ git clone --recurse-submodules https://github.com/dt-3team/anticorona.git
 ![image](https://user-images.githubusercontent.com/61259324/120963262-356b9280-c79c-11eb-94f0-2cd88bc66c5e.png)
 
 
-## 기능 요구사항 Coverage
+## 기능 요구사항 Coverage 검증
 
 ![image](https://user-images.githubusercontent.com/61259324/120993819-df5c1680-c7be-11eb-86c0-0c0cc1655310.png)
 
