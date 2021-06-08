@@ -424,10 +424,10 @@ mypage 서비스의 DB와 Booking/injection/vaccine 서비스의 DB를 다른 DB
 
 |서비스|DB|pom.xml|
 | :--: | :--: | :--: |
-|vaccine| H2 |![image](https://user-images.githubusercontent.com/2360083/120982836-1842be00-c7b4-11eb-91de-ab01170133fd.png)|
-|booking| H2 |![image](https://user-images.githubusercontent.com/2360083/120982836-1842be00-c7b4-11eb-91de-ab01170133fd.png)|
-|injection| H2 |![image](https://user-images.githubusercontent.com/2360083/120982836-1842be00-c7b4-11eb-91de-ab01170133fd.png)|
-|mypage| HSQL |![image](https://user-images.githubusercontent.com/2360083/121104328-c72adc80-c83c-11eb-8331-bb02ae376439.png)|
+|vaccine| H2 |![image](https://user-images.githubusercontent.com/2360083/121104579-4f10e680-c83d-11eb-8cf3-002c3d7ff8dc.png)|
+|booking| H2 |![image](https://user-images.githubusercontent.com/2360083/121104579-4f10e680-c83d-11eb-8cf3-002c3d7ff8dc.png)|
+|injection| H2 |![image](https://user-images.githubusercontent.com/2360083/121104579-4f10e680-c83d-11eb-8cf3-002c3d7ff8dc.png)|
+|mypage| HSQL |![image](https://user-images.githubusercontent.com/2360083/120982836-1842be00-c7b4-11eb-91de-ab01170133fd.png)|
 
 ## 동기식 호출과 Fallback 처리
 분석단계에서의 조건 중 하나로  접종 예약 수량은 백신 재고수량을 초과 할 수 없으며
