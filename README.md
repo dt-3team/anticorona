@@ -1,5 +1,6 @@
 # 3rd Team Project
 ## 코로나 백신 접종 알리미
+![corona-1140x564](https://user-images.githubusercontent.com/2360083/121103166-39e68880-c83a-11eb-8849-4cd358293abd.png)
 
 ### Repositories
 
