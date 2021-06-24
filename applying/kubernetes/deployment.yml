@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: applying
+  namespace: anticorona
+  labels:
+    app: applying
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: applying
+  template:
+    metadata:
+      labels:
+        app: applying
+    spec:
+      containers:
+        - name: applying
+          image: skccanticorona.azurecr.io/applying:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: injection-url
+              valueFrom:
+                configMapKeyRef:
+                  name: apiurl
+                  key: url
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+          volumeMounts:
+            - name: volume
+              mountPath: "/mnt/azure"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "500Mi"
+              cpu: "500m"
+      volumes:
+      - name: volume
+        persistentVolumeClaim:
+          claimName: applying-disk
